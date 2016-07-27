@@ -39,7 +39,7 @@ class Order(models.Model):
 
     def __str__(self):
         return '%s, date_order=%s, sum=%s' % \
-               (self.id_user, self.date_order, self.sum)
+               (self.user, self.date_order, self.sum)
 
 
 class ListOfOrder(models.Model):
