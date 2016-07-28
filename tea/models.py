@@ -5,7 +5,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Product(models.Model):
@@ -15,7 +15,7 @@ class Product(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class User(models.Model):
@@ -28,7 +28,7 @@ class User(models.Model):
     password = models.CharField(max_length=30)
 
     def __str__(self):
-        return 'name=%s, surname=%s' % (self.name, self.surname)
+        return '%s %s' % (self.name, self.surname)
 
 
 class Order(models.Model):
@@ -38,8 +38,7 @@ class Order(models.Model):
     products = models.ManyToManyField(Product, through='ListOfOrder')
 
     def __str__(self):
-        return '%s, date_order=%s, sum=%s' % \
-               (self.user, self.date_order, self.sum)
+        return str(self.user)
 
 
 class ListOfOrder(models.Model):
@@ -50,7 +49,7 @@ class ListOfOrder(models.Model):
     sum = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return '%s, %s, price=%s, quantity=%s, sum=%s' % \
+        return '%s, %s, %s, %s, %s' % \
                (self.order, self.product, self.price, self.quantity,
                 self.sum)
 

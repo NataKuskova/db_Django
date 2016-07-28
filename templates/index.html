@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Товары</title>
+</head>
+<body>
+    <!--
+    {% for i in  categories%}
+        <p>{{i}}</p>
+    {% endfor %}
+    -->
+
+    {% for i in  products %}
+        <h3>{{i}}</h3>
+        <p>Цена: {{i.price}}</p>
+        <p>Категория: {{i.category}}</p>
+        <p>Количество: {{i.quantity}}</p>
+    {% endfor %}
+
+</body>
+</html>

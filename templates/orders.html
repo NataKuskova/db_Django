@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказы</title>
+</head>
+<body>
+    {% for order in  orders %}
+        {% if forloop.last %} sdkljfhs {% endif%}
+        {{ order.id }}
+        <h3>Покупатель: {{order}}</h3>
+        <p>Дата заказа: {{order.date_order}}</p>
+        <p>Сумма: {{order.sum}}</p>
+        {% for prod in order.products.all %}
+            <p> {{ prod.name }} </p>
+        {% endfor %}
+
+    {% endfor %}
+</body>
+</html>
