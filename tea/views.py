@@ -8,6 +8,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.views.generic.base import View
+from django.contrib import admin
 from tea.models import *
 
 
@@ -31,7 +32,6 @@ class ProductsList(ListView):
             return queryset.filter(Q(name__icontains=search) |
                                    Q(price__icontains=search) |
                                    Q(quantity__icontains=search))
-
         if sort:
             return queryset.order_by(by + sort)
         return queryset
@@ -94,4 +94,6 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect("/tea/")
+
+
 
