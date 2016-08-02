@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href='{% static "css/style.css" %}'>
+</head>
+<body>
+    <header>
+        {% if user.is_authenticated %}
+            <p>Добро пожаловать, <b>{{user}}</b></p>
+            <p  class="btn"><a href="/tea/logout/">Выход</a></p>
+        {% else %}
+            <p  class="btn"><a href="/tea/login/">Вход</a></p>
+            <p class="btn"><a href="/tea/register/">Регистрация</a></p>
+        {% endif %}
+        <a href="/tea/" class="main_link">Все товары</a>
+    </header>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

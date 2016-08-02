@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated and user == product.user %}
+        <a href="update/" class="update">Редактировать</a>
+        <form action="{% url 'product_delete' product.id %}" method="post" class="delete">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
+    {% endif %}
+
+    <div class="product_overview">
+        <img src="{{ product.photo.url }}">
+        <div class="details">
+            <h1>{{ product.name }}</h1>
+            <p>Категория: {{ product.category }}</p>
+            <p>Цена: {{ product.price }}</p>
+            <p>Количество: {{ product.quantity }}</p>
+            <p>Добавил пользователь: {{product.user}}</p>
+        </div>
+    </div>
+{% endblock %}

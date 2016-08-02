@@ -1,10 +1,15 @@
 from django.conf.urls import url
 
-from . import views
+from tea.views import *
 
 urlpatterns = [
-    url(r'^$', views.view_categories, name='view_categories'),
-    url(r'^view_category/(?P<id>\d+)/$', views.view_category, name='view_category'),
-    url(r'^view_products/$', views.view_products, name='view_products'),
-    url(r'^view_orders/$', views.view_orders, name='view_orders'),
+    url(r'^$', ProductsList.as_view(), name='products_list'),
+    url(r'^page/(?P<page>\d+)/$', ProductsList.as_view(), name='products_list'),
+    url(r'^add_product/$', ProductCreate.as_view(), name='add_product'),
+    url(r'^product/(?P<id>\d+)/$', ProductDetail.as_view(), name='product_detail'),
+    url(r'^product/(?P<id>\d+)/delete/$', ProductDelete.as_view(), name='product_delete'),
+    url(r'^product/(?P<id>\d+)/update/$', ProductUpdate.as_view(), name='product_update'),
+    url(r'^register/$', RegisterFormView.as_view()),
+    url(r'^login/$', LoginFormView.as_view()),
+    url(r'^logout/$', LogoutView.as_view()),
 ]

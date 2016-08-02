@@ -1,22 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Товары</title>
-</head>
-<body>
-    <!--
-    {% for i in  categories%}
-        <p>{{i}}</p>
-    {% endfor %}
-    -->
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Каталог{% endblock %}
 
-    {% for i in  products %}
-        <h3>{{i}}</h3>
-        <p>Цена: {{i.price}}</p>
-        <p>Категория: {{i.category}}</p>
-        <p>Количество: {{i.quantity}}</p>
-    {% endfor %}
+{% block content %}
 
-</body>
-</html>
+    {% if user.is_authenticated %}
+        <div class="add_product">
+            <a href="/tea/add_product/">
+                <img src='{% static "images/add-p.png" %}' alt=''>
+                Добавить новый товар
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="filter form">
+        {% include 'product_search.html' %}
+        {% include 'sort_product.html' %}
+    </div>
+    <table class="products">
+        <thead>
+            <tr>
+                <td class="image">Изображение</td>
+                <td>Наименование товара</td>
+                <td>Цена</td>
+                <td>Количество</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if products %}
+                {% for product in  products %}
+                    <tr class="hover_tr">
+                        <td class="image"><img src='{{ product.photo.url }}'></td>
+                        <td>
+                            <a class="name_product" href="/tea/product/{{product.id}}/">{{product.name}}</a>
+                        </td>
+                        <td>{{product.price}} грн</td>
+                        <td>{{product.quantity}} гр</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    {% if is_paginated %}
+        <div class="pagination">
+            <ul>
+                {% if page_obj.has_previous %}
+                    <li>
+                        <a href="/tea/page/{{ page_obj.previous_page_number }}
+                        {% if request.GET.urlencode %}
+                            ?{{request.GET.urlencode }}
+                        {% endif %}">
+                            <<
+                        </a>
+                    </li>
+                {% endif %}
+                {% for page in page_obj.paginator.page_range %}
+                    {% if page_obj.number == page %}
+                        <li class="active">
+                            <a href="/tea/page/{{ page }}
+                                {% if request.GET.urlencode %}
+                                    ?{{request.GET.urlencode }}
+                                {% endif %}">
+                                {{page}}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="/tea/page/{{ page }}
+                                {% if request.GET.urlencode %}
+                                    ?{{request.GET.urlencode }}
+                                {% endif %}">
+                                {{page}}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li>
+                        <a href="/tea/page/{{ page_obj.next_page_number }}
+                            {% if request.GET.urlencode %}
+                                ?{{request.GET.urlencode }}
+                            {% endif %}">
+                            >>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}
