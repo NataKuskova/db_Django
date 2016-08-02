@@ -47,10 +47,7 @@
             <ul>
                 {% if page_obj.has_previous %}
                     <li>
-                        <a href="/tea/page/{{ page_obj.previous_page_number }}
-                        {% if request.GET.urlencode %}
-                            ?{{request.GET.urlencode }}
-                        {% endif %}">
+                        <a href="/tea/page/{{ page_obj.previous_page_number }}{% if request.GET.urlencode %}?{{request.GET.urlencode }}{% endif %}">
                             <<
                         </a>
                     </li>
@@ -58,19 +55,13 @@
                 {% for page in page_obj.paginator.page_range %}
                     {% if page_obj.number == page %}
                         <li class="active">
-                            <a href="/tea/page/{{ page }}
-                                {% if request.GET.urlencode %}
-                                    ?{{request.GET.urlencode }}
-                                {% endif %}">
+                            <a href="/tea/page/{{ page }}{% if request.GET.urlencode %}?{{request.GET.urlencode }}{% endif %}">
                                 {{page}}
                             </a>
                         </li>
                     {% else %}
                         <li>
-                            <a href="/tea/page/{{ page }}
-                                {% if request.GET.urlencode %}
-                                    ?{{request.GET.urlencode }}
-                                {% endif %}">
+                            <a href="/tea/page/{{ page }}{% if request.GET.urlencode %}?{{request.GET.urlencode }}{% endif %}">
                                 {{page}}
                             </a>
                         </li>
@@ -78,10 +69,7 @@
                 {% endfor %}
                 {% if page_obj.has_next %}
                     <li>
-                        <a href="/tea/page/{{ page_obj.next_page_number }}
-                            {% if request.GET.urlencode %}
-                                ?{{request.GET.urlencode }}
-                            {% endif %}">
+                        <a href="/tea/page/{{ page_obj.next_page_number }}{% if request.GET.urlencode %}?{{request.GET.urlencode }}{% endif %}">
                             >>
                         </a>
                     </li>
