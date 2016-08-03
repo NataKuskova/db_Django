@@ -1,24 +1,23 @@
 from django.contrib import admin
 from tea.models import *
 
-# Register your models here.
+
+class ListOfOrderInline(admin.TabularInline):
+    model = ListOfOrder
+    extra = 1
+    raw_id_fields = ("product",)
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'sum', 'date_order', 'user']
+    inlines = (ListOfOrderInline,)
+    list_display = ['id', 'user', 'sum', 'date_order']
+    list_display_links = ('id', 'user')
     date_hierarchy = 'date_order'
-    list_display_links = ('id', 'date_order')
-    list_editable = ('user',)
     list_filter = ('date_order',)
-    # empty_value_display = 'Empty'
-    # actions_on_top = True  # bottom
-    # actions = ['show_data', ]
+    list_per_page = 10
+    search_fields = ('user__name','user__surname', 'sum',)
 
-    # def show_data(self, obj):
-    #     return '%s - %s' % (obj.d1, obj.d2)
-
-    # show_data.short_description = 'Simple show field'
-    # show_data.admin_order_field = 'date_order'
+    """
     fieldsets = (
         (None, {'fields': (('user', 'sum',), 'date_order')}),
         ('Advanced options', {
@@ -26,33 +25,29 @@ class OrderAdmin(admin.ModelAdmin):
              'fields': (('user', 'sum'), 'date_order'),
              'description': '<b>This is description</b>'})
         )
+    """
 
 
-class ListOfOrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'order', 'product', 'price', 'quantity', 'sum']
-    # date_hierarchy = 'date_order'
-    list_display_links = ('id', 'order')
-    # list_editable = ('user',)
-    # list_filter = ('date_order',)
-    # empty_value_display = 'Empty'
-    # actions_on_top = True  # bottom
-    # actions = ['name_method', ]
+class ProductAdmin(admin.ModelAdmin):
+    inlines = (ListOfOrderInline,)
+    list_display = ['id', 'name', 'category', 'price', 'quantity', 'photo',
+                    'user']
+    list_display_links = ('id', 'name')
+    list_filter = ('category', 'user',)
+    search_fields = ('name', 'price', 'quantity', 'category__name')
+    list_per_page = 10
 
-    def show_data(self, obj):
-        return '%s - %s' % (obj.d1, obj.d2)
-    show_data.short_description = 'Simple show field'
-    show_data.admin_order_field = 'date'
-    fieldsets = (
-        (None, {'fields': (('order', 'product',), 'price', 'quantity', 'sum')}),
-        ('Advanced options', {
-             'classes': ('collapse',),  # wide
-             'fields': (('order', 'product'), 'price', 'quantity', 'sum'),
-             'description': '<b>This is description</b>'})
-        )
+
+class BuyerAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'surname', 'email']
+    list_display_links = ('id', 'name', 'surname')
+    fields = (('name', 'surname'), 'email', 'phone', 'address')
+    list_per_page = 10
+    search_fields = ('name', 'surname', 'email', 'phone', 'address',)
 
 
 admin.site.register(Category)
-admin.site.register(Product)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(ListOfOrder, ListOfOrderAdmin)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Buyer, BuyerAdmin)
 

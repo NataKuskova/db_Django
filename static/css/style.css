@@ -153,10 +153,17 @@ header p{
     -moz-transition: background-color 0.3s 0.1s ease;
     -o-transition: background-color 0.3s 0.1s ease;
     -webkit-transition: background-color 0.3s 0.1s ease;
+    margin-left: 15px;
 }
 .filter input,
 .filter select{
     padding: 4px;
+}
+.filter form{
+    height: 40px;
+}
+label[for='sort']{
+    margin-left: 15px;
 }
 
 /*-----product create-----*/
