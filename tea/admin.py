@@ -1,4 +1,5 @@
 from django.contrib import admin
+from datetime import date
 from tea.models import *
 
 
@@ -44,6 +45,24 @@ class BuyerAdmin(admin.ModelAdmin):
     fields = (('name', 'surname'), 'email', 'phone', 'address')
     list_per_page = 10
     search_fields = ('name', 'surname', 'email', 'phone', 'address',)
+
+"""
+class DecadeBornListFilter(admin.SimpleListFilter):
+    title = 'decade born'
+    parameter_name = 'decade'
+
+    def lookups(self, request, model_admin):
+        # return [('90s', 'in 90s'), ('80s', 'in 80s')]
+        qs = model_admin.get_queryset(request)
+        if qs.filter(date_order__gte == date(1980, 1, 1),
+                     date_order__lte == date(1989, 12, 31)).exists():
+            yield('80s', 'in 80')
+
+    def queryset(self, request, queryset):
+        if self.value == '80s':
+            return queryset.filter(date_order__gte == date(1980, 1, 1),
+                                   date_order__lte == date(1989, 12, 31))
+"""
 
 
 admin.site.register(Category)

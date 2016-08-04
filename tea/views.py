@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, request
 from django.views.generic import ListView, DetailView
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django.core.urlresolvers import reverse_lazy
@@ -10,6 +10,7 @@ from django.contrib.auth import login, logout
 from django.views.generic.base import View
 from django.contrib import admin
 from tea.models import *
+from tea.forms import *
 
 
 class ProductsList(ListView):
@@ -20,19 +21,19 @@ class ProductsList(ListView):
 
     def get_queryset(self):
         queryset = super(ProductsList, self).get_queryset()
-        search = self.request.GET.get('search')
-        sort = self.request.GET.get('sort')
-        by = self.request.GET.get('by')
-        if search and sort:
+        search = self.request.GET.get('search', None)
+        sort = self.request.GET.get('sort', None)
+        by = self.request.GET.get('by', None)
+        if search is not None and sort is not None:
             return queryset.filter(Q(name__icontains=search) |
                                    Q(price__icontains=search) |
                                    Q(quantity__icontains=search)
                                    ).order_by(by + sort)
-        if search:
+        if search is not None:
             return queryset.filter(Q(name__icontains=search) |
                                    Q(price__icontains=search) |
                                    Q(quantity__icontains=search))
-        if sort:
+        if sort is not None:
             return queryset.order_by(by + sort)
         return queryset
 
@@ -96,4 +97,11 @@ class LogoutView(View):
         return HttpResponseRedirect("/tea/")
 
 
+class BuyerCreate(FormView):
+    template_name = 'edit_user.html'
+    form_class = CreateUserForm
+    success_url = reverse_lazy('products_list')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        return redirect(self.get_success_url())

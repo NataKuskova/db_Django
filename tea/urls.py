@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^register/$', RegisterFormView.as_view()),
     url(r'^login/$', LoginFormView.as_view()),
     url(r'^logout/$', LogoutView.as_view()),
+    url(r'^add_buyer/$', BuyerCreate.as_view(), name='add_buyer'),
 ]
