@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 
 
 class Category(models.Model):
@@ -26,11 +26,18 @@ class Product(models.Model):
 
 
 class Buyer(models.Model):
+    # user = models.OneToOneField(
+    #     User,
+    #     on_delete=models.CASCADE,
+    #     primary_key=True
+    # )
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     email = models.EmailField(max_length=50)
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=19)
+
+    # objects = UserManager()
 
     def __str__(self):
         return '%s %s' % (self.name, self.surname)

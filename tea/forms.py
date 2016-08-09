@@ -42,3 +42,4 @@ class CreateUserForm(forms.ModelForm):
     class Meta:
         model = Buyer
         fields = ['name', 'surname', 'email', 'address', 'phone']
+
