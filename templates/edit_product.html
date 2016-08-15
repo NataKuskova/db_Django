@@ -1,22 +1,22 @@
 {% extends "base.html" %}
-
-{% block title %}Новый товар{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Новый товар" %}{% endblock %}
 
 {% block content %}
     <div class="form">
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-            <label for="{{ form.name.id_for_label }}">Наименование: </label>
+            <label for="{{ form.name.id_for_label }}">{% trans "Наименование товара" %}: </label>
             {{ form.name }}<br>
-            <label for="{{ form.category.id_for_label }}">Категория: </label>
+            <label for="{{ form.category.id_for_label }}">{% trans "Категория" %}: </label>
             {{ form.category }}<br>
-            <label for="{{ form.price.id_for_label }}">Цена: </label>
+            <label for="{{ form.price.id_for_label }}">{% trans "Цена" %}: </label>
             {{ form.price }}<br>
-            <label for="{{ form.quantity.id_for_label }}">Количество: </label>
+            <label for="{{ form.quantity.id_for_label }}">{% trans "Количество" %}: </label>
             {{ form.quantity }}<br>
-            <label for="{{ form.photo.id_for_label }}">Фотография: </label>
+            <label for="{{ form.photo.id_for_label }}">{% trans "Фотография" %}: </label>
             {{ form.photo }}
             <br><br>
-            <input type="submit" value="Сохранить" name="add_product" />
+            <input type="submit" value='{% trans "Сохранить" %}' name="add_product" />
         </form>
     </div>
 {% endblock %}

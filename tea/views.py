@@ -92,7 +92,7 @@ class ProductUpdate(UpdateView):
 class RegisterFormView(FormView):
     form_class = UserCreationForm
     # form_class = RegistrForm
-    success_url = "/tea/login/"
+    success_url = reverse_lazy('login')
     template_name = "register.html"
 
     def form_valid(self, form):
@@ -115,7 +115,7 @@ class RegisterFormView(FormView):
 class LoginFormView(FormView):
     form_class = AuthenticationForm
     template_name = "login.html"
-    success_url = "/tea/"
+    success_url = reverse_lazy('products_list')
 
     def form_valid(self, form):
         self.user = form.get_user()
@@ -131,7 +131,7 @@ class LoginFormView(FormView):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect("/tea/")
+        return redirect("products_list")
 
 
 class BuyerCreate(FormView):
@@ -179,7 +179,7 @@ class DeleteFromCart(View):
         product = Product.objects.get(id=kwargs['id'])
         cart = Cart(self.request)
         cart.remove(product)
-        return HttpResponseRedirect("/tea/cart/")
+        return redirect("cart")
 
 
 class ClearCart(View):
@@ -187,7 +187,7 @@ class ClearCart(View):
     def get(self, request, **kwargs):
         cart = Cart(self.request)
         cart.clear()
-        return HttpResponseRedirect("/tea/cart/")
+        return redirect("cart")
 
 
 class UpdateCart(TemplateView):
@@ -198,7 +198,7 @@ class UpdateCart(TemplateView):
             quantity = request.POST.get('q_'+str(item.product.id), None)
             if quantity is not None:
                 cart.update(item.product, quantity, item.product.price)
-        return HttpResponseRedirect("/tea/cart/")
+        return redirect("cart")
 
 
 class OrderView(FormView):

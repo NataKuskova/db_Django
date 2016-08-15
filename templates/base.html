@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load i18n %}
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     {% load staticfiles %}
@@ -10,15 +11,25 @@
 </head>
 <body>
     <header>
+        {% get_available_languages as languages %}
+        {% for lang_code, lang_name in languages %}
+            {% language lang_code %}
+            {% if object.id %}
+                <a class="lang" href="{% url request.resolver_match.url_name  id=object.id %}">{{ lang_name }}</a>
+            {% else %}
+                <a class="lang" href="{% url request.resolver_match.url_name %}">{{ lang_name }}</a>
+            {% endif %}
+            {% endlanguage %}
+        {% endfor %}
         {% if user.is_authenticated %}
-            <p>Добро пожаловать, <b>{{user}}</b></p>
-            <p  class="btn"><a href="/tea/logout/">Выход</a></p>
+            <p>{% trans "Добро пожаловать" %}, <b>{{user}}</b></p>
+            <p  class="btn"><a href="{% url 'logout' %}">{% trans "Выход" %}</a></p>
         {% else %}
-            <p  class="btn"><a href="/tea/login/">Вход</a></p>
-            <p class="btn"><a href="/tea/register/">Регистрация</a></p>
+            <p class="btn"><a href="{% url 'login' %}">{% trans "Вход" %}</a></p>
+            <p class="btn"><a href="{% url 'register' %}">{% trans "Регистрация" %}</a></p>
         {% endif %}
-        <a href="/tea/" class="main_link">Все товары</a>
-        <a href="/tea/cart/" class="cart">Корзина (<span id="number">{{cart.count}}</span>)</a>
+        <a href="{% url 'products_list' %}" class="main_link">{% trans "Все товары" %}</a>
+        <a href="{% url 'cart' %}" class="cart">{% trans "Корзина" %} (<span id="number">{{cart.count}}</span>)</a>
     </header>
     {% block content %}
 
@@ -26,10 +37,10 @@
 
     <div class="overlay"></div>
     <div id="myModal" class="popup">
-	<div>
-		<a title="Закрыть" class="close_window">&#215;</a>
-		<p class="add_to_cart_popup">Товар добавлен в <a href="/tea/cart/">корзину</a>!</p>
-	</div>
+    <div>
+        <a title="Закрыть" class="close_window">&#215;</a>
+        <p class="add_to_cart_popup">{% trans "Товар добавлен в" %} <a href="{% url 'cart' %}">{% trans "корзину" %}</a>!</p>
+    </div>
 </div>
 </body>
 </html>

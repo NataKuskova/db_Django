@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from tea.models import *
 
 
@@ -19,9 +20,9 @@ class PhoneWidget(forms.MultiWidget):
 
 
 class PhoneField(forms.MultiValueField):
-    def __init__(self, code_l, n_l, *args):
+    def __init__(self, code_l, n_l, label, *args):
         list_fields = [forms.CharField(), forms.CharField()]
-        super(PhoneField, self).__init__(list_fields, widget=PhoneWidget(code_l, n_l), *args)
+        super(PhoneField, self).__init__(list_fields, widget=PhoneWidget(code_l, n_l), label=label, *args)
 
     def compress(self, values):
         return '+38' + '(' + values[0] + ')' + values[1]
@@ -37,7 +38,10 @@ class CreateUserForm(forms.Form):
 
 
 class CreateUserForm(forms.ModelForm):
-    phone = PhoneField(3, 7)
+    phone = PhoneField(3, 7, label=_('Телефон'))
+    name = forms.CharField(max_length=100, label=_('Имя'))
+    surname = forms.CharField(max_length=100, label=_('Фамилия'))
+    address = forms.CharField(max_length=100, label=_('Адрес'))
 
     class Meta:
         model = Buyer

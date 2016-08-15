@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-
-{% block title %}Регистрация{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Регистрация" %}{% endblock %}
 
 {% block content %}
 
@@ -31,7 +31,7 @@
         <label for="phone">Телефон:</label>
         <input type="text" name="phone" id="phone">-->
         <br>
-      <button type="submit">Зарегистрироваться</button>
+      <button type="submit">{% trans "Зарегистрироваться" %}</button>
     </form>
 
 {% endblock %}
