@@ -166,7 +166,7 @@ class AddToCart(View):
             cart = Cart(request)
             try:
                 product = Product.objects.get(id=kwargs['id'])
-                quantity = 1  # добавить в шаблон поле для ввода количества!!!!а может и нет..
+                quantity = 1
                 cart.add(product, product.price, quantity)
                 return HttpResponse(json.dumps({'count': cart.count()}))
             except:
