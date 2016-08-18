@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
+    url(r'^api/', include('api.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tea',
     'cart',
+    'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [
